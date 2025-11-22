@@ -194,11 +194,13 @@ void *triage_thread(void *arg) {
     int thread_id = (int)(long)arg;
     
     while (running) {
+        //test
         Patient patient;
         patient.arrival_time = time(NULL);
         patient.triage_start_time = time(NULL);
-        
-        sleep(1); // Simulatiom to be substituted with actual handling in the future
+        patient.priority = 1; 
+
+        sleep(1); // Simulation to be substituted with actual handling in the future
         
         patient.triage_end_time = time(NULL);
         
@@ -241,7 +243,7 @@ void doctor_process(int doctor_id) {
         if (msgrcv(msq_id, &msg, sizeof(Patient), -4, IPC_NOWAIT) != -1) {
             msg.patient.attendance_start_time = time(NULL); // Priority( 1 - HIGH, 4 - LOW)
             
-            sleep(1); // Simulatiom to be substituted with actual handling in the future
+            sleep(1); // Simulation to be substituted with actual handling in the future
             
             msg.patient.attendance_end_time = time(NULL);
             
