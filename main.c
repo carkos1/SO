@@ -11,6 +11,7 @@
 #include <signal.h>
 #include <time.h>
 #include <semaphore.h>
+#include <stdarg.h>
 
 // Config structure
 typedef struct {
@@ -61,12 +62,12 @@ int running = 1;
 
 
 void read_config(const char *filename);
-void setup_ipc();
-void cleanup_ipc();
+void setup();
+void cleanup();
 void *triage_thread(void *arg);
 void doctor_process(int doctor_id);
-void sigint_handler(int sig);
-void sigusr1_handler(int sig);
+void sigint(int sig);
+void sigusr1(int sig);
 void log_event(const char *format, ...);
 
 int main() {
@@ -260,6 +261,7 @@ void doctor_process(int doctor_id) {
 }
 
 void sigint(int sig) {
+    (void)sig; // Suppress unused parameter warning
     printf("\nReceived SIGINT - Starting graceful shutdown...\n");
     running = 0;
     
@@ -272,6 +274,7 @@ void sigint(int sig) {
 }
 
 void sigusr1(int sig) {
+    (void)sig; // Suppress unused parameter warning
     printf("\n=== STATISTICS ===\n");
     pthread_mutex_lock(&stats->mutex);
     
