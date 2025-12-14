@@ -9,13 +9,18 @@ LDLIBS = -pthread
 SRC = main.c
 OBJ = $(SRC:.c=.o)
 TARGET = dei_emergency
+CLIENT_SRC = client.c
+CLIENT_TARGET = client
 
 .PHONY: all run clean debug format rebuild
 
-all: $(TARGET)
+all: $(TARGET) $(CLIENT_TARGET)
 
 $(TARGET): $(OBJ)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS) $(LDFLAGS)
+
+$(CLIENT_TARGET): $(CLIENT_SRC)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
